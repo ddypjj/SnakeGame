@@ -41,7 +41,7 @@ function play(){
 }
 
 function drawCanvas(){
-    //  Select the colour to fill the canvas
+    //  Select colour to fill the canvas
     ctx.fillStyle = "#FFDE03";
     // Draw a "filled" rectangle
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -50,6 +50,13 @@ function drawCanvas(){
 function foodPosition(){
     posX = RandomVal(canvas.width - 10);
     posY = RandomVal(canvas.height - 10);
+
+    for (let i = 0; i < snakeBody.length; i++){
+        const foodisOnSnake = snakeBody[i].x === posX && snakeBody[i].y === posY;
+        if (foodisOnSnake) {
+            foodPosition();
+        }
+    }
 }
 
 function RandomVal (canvasSize){
