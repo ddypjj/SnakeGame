@@ -25,6 +25,8 @@ var axisY = -10;
 var moveSnake = document.addEventListener("keydown", moveSnake);
 let changingDirection = false;
 
+var scoreGame = 0;
+
 drawCanvas();
 foodPosition();
 play();
@@ -42,6 +44,7 @@ function play(){
             },150);
     } else {
         clearCanvas();
+        playagain();
     }
 }
 
@@ -80,6 +83,8 @@ function snakeEngine(){
     const didEatFood = snakeBody[0].x === posX && snakeBody[0].y === posY;
     if (didEatFood) {
       foodPosition();
+      scoreGame += 10;
+      document.getElementById("score").innerHTML = scoreGame;
     } else {
       snakeBody.pop();
     }
@@ -147,4 +152,10 @@ function isCollision(){
     const hitBottomWall = snakeBody[0].y > canvas.height - 10;
 
     return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
+}
+
+function playagain (){
+    if (window.confirm("Main lagi ??? :)")) { 
+        location.reload();
+      }
 }
