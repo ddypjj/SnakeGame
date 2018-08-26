@@ -28,6 +28,18 @@ drawCanvas();
 foodPosition();
 play();
 
+function play(){
+    setTimeout(
+        function OnTick(){
+            clearCanvas();
+            snakeEngine();
+            snakeDraw();
+            foodDraw();
+            play();
+        },150);
+    
+}
+
 function drawCanvas(){
     //  Select the colour to fill the canvas
     ctx.fillStyle = "#FFDE03";
@@ -41,20 +53,8 @@ function foodPosition(){
 }
 
 function RandomVal (canvasSize){
-    posRandom = Math.round(Math.random() * canvasSize);
+    posRandom = Math.floor(Math.random() * canvasSize / 10) * 10;
     return posRandom;
-}
-
-function play(){
-    setTimeout(
-        function OnTick(){
-            clearCanvas();
-            snakeEngine();
-            snakeDraw();
-            foodDraw();
-            play();
-        },150);
-    
 }
 
 function clearCanvas() {
@@ -67,7 +67,7 @@ function snakeEngine(){
     snakeBody.unshift(head);
     const didEatFood = snakeBody[0].x === posX && snakeBody[0].y === posY;
     if (didEatFood) {
-      createFood();
+      foodPosition();
     } else {
       snakeBody.pop();
     }
