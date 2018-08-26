@@ -21,7 +21,7 @@ var snakeBody = [
 //  Move snake per tile axis
 var axisX = 0;
 var axisY = 10;
-
+//  Move snake using keyboard arrow
 var moveSnake = document.addEventListener("keydown", moveSnake);
 
 drawCanvas();
@@ -29,15 +29,18 @@ foodPosition();
 play();
 
 function play(){
-    setTimeout(
-        function OnTick(){
-            clearCanvas();
-            snakeEngine();
-            snakeDraw();
-            foodDraw();
-            play();
-        },150);
-    
+    if (!isCollision()) {
+        setTimeout(
+            function OnTick(){
+                clearCanvas();
+                snakeEngine();
+                snakeDraw();
+                foodDraw();
+                play();
+            },150);
+    } else {
+        clearCanvas();
+    }
 }
 
 function drawCanvas(){
@@ -122,4 +125,20 @@ function moveSnake(event) {
         axisX = 0;
         axisY = 10;
     }
+}
+
+function isCollision(){
+
+    for (let i = 3; i < snakeBody.length; i++) {
+        const hitbody = snakeBody[0].x === snakeBody[i].x && snakeBody[0].y === snakeBody[i].y;
+        if(hitbody) {
+            return true;
+        }
+    }
+    const hitLeftWall = snakeBody[0].x < 0;
+    const hitRightWall = snakeBody[0].x > canvas.width - 10;
+    const hitToptWall = snakeBody[0].y < 0;
+    const hitBottomWall = snakeBody[0].y > canvas.height - 10;
+
+    return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
 }
