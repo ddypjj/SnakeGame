@@ -20,9 +20,10 @@ var snakeBody = [
 
 //  Move snake per tile axis
 var axisX = 0;
-var axisY = 10;
+var axisY = -10;
 //  Move snake using keyboard arrow
 var moveSnake = document.addEventListener("keydown", moveSnake);
+let changingDirection = false;
 
 drawCanvas();
 foodPosition();
@@ -32,6 +33,7 @@ function play(){
     if (!isCollision()) {
         setTimeout(
             function OnTick(){
+                changingDirection = false;
                 clearCanvas();
                 snakeEngine();
                 snakeDraw();
@@ -99,9 +101,13 @@ function foodDraw(){
 
 function moveSnake(event) {
 
+    if (changingDirection) return;
+
+    changingDirection = true;
+
     const keyPressed = event.keyCode;
 
-    const goingUp = axisX === -10;
+    const goingUp = axisY === -10;
     const goingDown = axisY === 10;
     const goingRight = axisX === 10;
     const goingLeft = axisX === -10;
